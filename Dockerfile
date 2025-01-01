@@ -1,8 +1,3 @@
-<<<<<<< HEAD
-# stage 1:
-=======
-#Stage 1:
->>>>>>> fd925198865e6210f882b2dde1f458ebb1807b7e
 FROM node:14 as builder
 WORKDIR /app
 COPY package*.json ./ 
