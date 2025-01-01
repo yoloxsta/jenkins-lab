@@ -1,3 +1,4 @@
+# Stage 1:
 FROM node:14 as builder
 WORKDIR /app
 COPY package*.json ./ 
