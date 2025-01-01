@@ -1,4 +1,4 @@
-peline {
+pipeline {
     agent any
     environment {
         compose_service_name = "react-jenkins-docker"
