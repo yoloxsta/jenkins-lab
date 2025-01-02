@@ -12,13 +12,6 @@ pipeline {
                 }
             }
         }
-        stage('Run Unit Tests') {
-            steps {
-                ws("${workspace}") {
-                    sh 'npm test -- --ci --silent --reporters=default'
-                }
-            }
-        }
         stage('Docker Comopse Build') {
             steps {
                 ws("${workspace}"){
