@@ -49,3 +49,7 @@ jobs:
         uses: github/codeql-action/upload-sarif@v3
         with:
           sarif_file: 'trivy-results.sarif'
+          
+      - name: Check Trivy results file content
+        run: cat trivy-results.sarif
+
