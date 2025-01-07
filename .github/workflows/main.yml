@@ -53,3 +53,9 @@ jobs:
       - name: Check Trivy results file content
         run: cat trivy-results.sarif
 
+      - name: Upload Trivy results as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: trivy-results
+          path: trivy-results.sarif
+
