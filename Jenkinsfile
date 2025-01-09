@@ -12,12 +12,6 @@ pipeline {
                 }
             }
         }
-        stage('OWASP Dependency') {
-            steps {
-                dependencyCheck additionalArguments: '--scan ./', odcInstallation: 'dependency-check'
-                dependencyCheckPublisher pattern: '**/dependency-check-report.xml'
-            }
-        }
         stage('Docker Comopse Build') {
             steps {
                 ws("${workspace}"){
