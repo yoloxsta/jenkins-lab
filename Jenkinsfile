@@ -12,18 +12,10 @@ pipeline {
                 }
             }
         }
-        stage('OWASP Dependency-Check Vulnerabilities') {
+        stage('OWASP Dependency') {
             steps {
-                ws("${workspace}") {
-                    dependencyCheck additionalArguments: '''
-                        -o './'
-                        -s './'
-                        -f 'ALL'
-                        --prettyPrint
-                    ''', odcInstallation: 'OWASP Dependency-Check Vulnerabilities'
-
-                    dependencyCheckPublisher pattern: 'dependency-check-report.xml'
-                }
+                dependencyCheck additionalArguments: '--scan ./', odcInstallation: 'dependency-check'
+                dependencyCheckPublisher pattern: '**/dependency-check-report.xml'
             }
         }
         stage('Docker Comopse Build') {
