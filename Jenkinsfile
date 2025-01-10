@@ -21,13 +21,8 @@ pipeline {
         }
         stage('Docker Images Check') {
             steps {
-                ws("${workspace}") {
-                    // List the images and filter by service name
-                    sh """
-                        echo "Checking built images for ${compose_service_name}"
-                        docker images | grep ${compose_service_name} || echo "No images found for ${compose_service_name}"
-                    """
-                }
+                dependencyCheck additionalArguments: '--format HTML', odcInstallation: 'owasp'
+                
             }
         }
 
