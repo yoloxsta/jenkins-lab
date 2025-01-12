@@ -106,7 +106,7 @@ stage('OWASP Dependency-Check Vulnerabilities') {
                 }
             }
         }
-        stage('Docker Images Check') {
+        stage('Denpendency-check') {
             steps {
                 dependencyCheck additionalArguments: '--format HTML', odcInstallation: 'owasp'
                 
