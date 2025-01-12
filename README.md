@@ -121,3 +121,5 @@ pipeline {
     }
 }
 ```
+###Remote cluster
+`https://www.fosstechnix.com/integrate-remote-kubernetes-cluster-with-jenkins/`
