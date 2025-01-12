@@ -71,21 +71,8 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/t
 
 ######################################################
 
-stage('OWASP Dependency-Check Vulnerabilities') {
-      steps {
-        dependencyCheck additionalArguments: ''' 
-                    -o './'
-                    -s './'
-                    -f 'ALL' 
-                    --prettyPrint''', odcInstallation: 'owasp'
-        
-        dependencyCheckPublisher pattern: 'dependency-check-report.xml'
-      }
-    }
-
-    ###############
-
-    pipeline {
+```
+pipeline {
     agent any
     environment {
         compose_service_name = "react-jenkins-docker"
@@ -106,7 +93,7 @@ stage('OWASP Dependency-Check Vulnerabilities') {
                 }
             }
         }
-        stage('Denpendency-check') {
+        stage('Dependency-check') {
             steps {
                 dependencyCheck additionalArguments: '--format HTML', odcInstallation: 'owasp'
                 
@@ -133,5 +120,4 @@ stage('OWASP Dependency-Check Vulnerabilities') {
         }
     }
 }
-
-#################################################################################
+```
