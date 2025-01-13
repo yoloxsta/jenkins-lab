@@ -1,7 +1,7 @@
 pipeline {
     agent any
     environment {
-        ImageRegistry = 'yolomurphy/sta'
+        ImageRegistry = 'sta'
         compose_service_name = "react-jenkins-docker"
         workspace = "/home/jenkins/project/react-jenkins-docker/"
     }
