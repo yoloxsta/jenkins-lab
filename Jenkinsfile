@@ -38,16 +38,9 @@ pipeline {
         stage('Deploy to Kubernetes') {
             steps {
                 withCredentials([string(credentialsId: "${KUBECONFIG}", variable: 'KUBECONFIG_CONTENT')]) {
-                    // Write the kubeconfig content to a file safely
-                    writeFile(file: 'kubeconfig.yaml', text: "${KUBECONFIG_CONTENT}")
-
-                    // Verify the kubeconfig file by printing its content
-                    sh 'cat kubeconfig.yaml'
 
                     // Now set the KUBECONFIG environment variable and use it with kubectl
                     sh '''
-                    export KUBECONFIG=kubeconfig.yaml
-                    kubectl get nodes
                     kubectl apply -f k8s/deployment.yaml
                     '''
                 }
