@@ -34,25 +34,12 @@ pipeline {
                 }
             }
         }
-        stage('Prepare kubeconfig') {
-            steps {
-                script {
-                    echo "Setting up kubeconfig for Minikube..."
-                    withCredentials([string(credentialsId: 'kubeconfig', variable: 'KUBECONFIG_CONTENT')]) {
-                        sh '''
-                            echo "$KUBECONFIG_CONTENT" > /tmp/kubeconfig
-                            export KUBECONFIG=/tmp/kubeconfig
-                        '''
-                    }
-                }
-            }
-        }
         stage('Deploy to Minikube') {
             steps {
                 script {
                     echo "Deploying application to Minikube..."
                     sh '''
-                        kubectl apply -f k8s/deployment.yaml --kubeconfig=/tmp/kubeconfig
+                        kubectl apply -f k8s/deployment.yaml
                     '''
                 }
             }
