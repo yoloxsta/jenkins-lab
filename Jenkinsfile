@@ -38,7 +38,7 @@ pipeline {
             steps {
                 script {
                     echo "Setting up kubeconfig for Minikube..."
-                    withCredentials([string(credentialsId: 'minikube-kubeconfig', variable: 'KUBECONFIG_CONTENT')]) {
+                    withCredentials([string(credentialsId: 'kubeconfig', variable: 'KUBECONFIG_CONTENT')]) {
                         sh '''
                             echo "$KUBECONFIG_CONTENT" > /tmp/kubeconfig
                             export KUBECONFIG=/tmp/kubeconfig
