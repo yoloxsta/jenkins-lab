@@ -2,6 +2,7 @@ pipeline {
     agent any
     environment {
         ImageRegistry = 'yolomurphy/sta'
+        KUBECONFIG = 'kubeconfig'
         compose_service_name = "react-jenkins-docker"
         workspace = "/home/jenkins/project/react-jenkins-docker/"
     }
@@ -34,12 +35,20 @@ pipeline {
                 }
             }
         }
-        stage('Deploy deployment and service file') {
+        stages {
+        stage('Deploy to Kubernetes') {
             steps {
-                script {
-                    kubernetesDeploy configs: 'k8s/deployment.yaml', kubeconfigId: 'kubeconfig'
+                withCredentials([string(credentialsId: "${KUBECONFIG}", variable: 'KUBECONFIG_CONTENT')]) {
+                    // Save kubeconfig content to a file
+                    sh '''
+                    echo "$KUBECONFIG_CONTENT" > kubeconfig.yaml
+                    export KUBECONFIG=kubeconfig.yaml
+                    kubectl get nodes
+                    kubectl apply -f k8s-deployment.yaml
+                    '''
                 }
             }
         }
+    }
     }
 }
