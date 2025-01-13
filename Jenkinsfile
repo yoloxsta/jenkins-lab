@@ -43,7 +43,7 @@ pipeline {
                     echo "$KUBECONFIG_CONTENT" > kubeconfig.yaml
                     export KUBECONFIG=kubeconfig.yaml
                     kubectl get nodes
-                    kubectl apply -f k8s-deployment.yaml
+                    kubectl apply -f k8s/deployment.yaml
                     '''
                 }
             }
