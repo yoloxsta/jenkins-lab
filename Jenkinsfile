@@ -34,14 +34,20 @@ pipeline {
                 }
             }
         }
+        stage("Set Up Minikube kubectl Context") {
+            steps {
+                script {
+                    echo "Setting up Minikube kubectl context..."
+                    sh 'kubectl config use-context minikube'  // Ensure kubectl uses Minikube's context
+                }
+            }
+        }
         stage("Deploy to Minikube") {
             steps {
                 script {
                     echo "Deploying to Minikube..."
-
-                    // Replace placeholders in the YAML file with actual values
                     sh '''
-                        sed "s|\${ImageRegistry}:${BUILD_NUMBER}|${ImageRegistry}:${BUILD_NUMBER}|g" k8s/deployment.yaml | kubectl apply -f -
+                        sed "s|\${ImageRegistry}:${BUILD_NUMBER}|${ImageRegistry}:${BUILD_NUMBER}|g" k8s/deployment.yaml | kubectl apply -f - --validate=false
                     '''
                 }
             }
