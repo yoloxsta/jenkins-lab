@@ -2,7 +2,6 @@ pipeline {
     agent any
     environment {
         ImageRegistry = 'yolomurphy/sta'
-        KUBECONFIG = '/home/ubuntu/.kube/config'
         compose_service_name = "react-jenkins-docker"
         workspace = "/home/jenkins/project/react-jenkins-docker/"
     }
@@ -35,16 +34,25 @@ pipeline {
                 }
             }
         }
-        stage('Deploy to Kubernetes') {
+        stage('Deploy to Minikube') {
             steps {
-                withCredentials([string(credentialsId: "${KUBECONFIG}", variable: 'KUBECONFIG_CONTENT')]) {
+                script {
+                    echo "Deploying to Minikube..."
 
-                    // Now set the KUBECONFIG environment variable and use it with kubectl
-                    sh '''
-                    kubectl apply -f k8s/deployment.yaml
-                    '''
+                    // Inject kubeconfig from Jenkins secret
+                    withCredentials([string(credentialsId: 'kubeconfig', variable: 'KUBECONFIG_CONTENT')]) {
+                        writeFile(file: '/home/ubuntu/.kube/config', text: KUBECONFIG_CONTENT)
+                    }
+
+                    // Set the image in the deployment file (e.g., update the deployment YAML with the new image)
+                    sh """
+                        kubectl set image deployment/react-jenkins-docker react-jenkins-docker=${ImageRegistry}:${BUILD_NUMBER} --record
+                    """
+                    // Apply the updated deployment and service files from the repo
+                    sh "kubectl apply -f k8s/deployment.yaml"
                 }
             }
         }
     }
+    
 }
