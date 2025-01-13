@@ -36,21 +36,7 @@ pipeline {
         }
         stage('Deploy to Minikube') {
             steps {
-                script {
-                    echo "Deploying to Minikube..."
-
-                    // Inject kubeconfig from Jenkins secret
-                    withCredentials([string(credentialsId: 'kubeconfig', variable: 'KUBECONFIG_CONTENT')]) {
-                        writeFile(file: '/home/ubuntu/.kube/config', text: KUBECONFIG_CONTENT)
-                    }
-
-                    // Set the image in the deployment file (e.g., update the deployment YAML with the new image)
-                    sh """
-                        kubectl set image deployment/react-jenkins-docker react-jenkins-docker=${ImageRegistry}:${BUILD_NUMBER} --record
-                    """
-                    // Apply the updated deployment and service files from the repo
                     sh "kubectl apply -f k8s/deployment.yaml"
-                }
             }
         }
     }
