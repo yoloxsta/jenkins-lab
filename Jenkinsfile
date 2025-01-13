@@ -2,7 +2,7 @@ pipeline {
     agent any
     environment {
         ImageRegistry = 'yolomurphy/sta'
-        KUBECONFIG = 'kubeconfig'
+        KUBECONFIG = '/home/ubuntu/.kube/config'
         compose_service_name = "react-jenkins-docker"
         workspace = "/home/jenkins/project/react-jenkins-docker/"
     }
