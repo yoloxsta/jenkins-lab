@@ -34,5 +34,17 @@ pipeline {
                 }
             }
         }
+        stage("Deploy to Minikube") {
+            steps {
+                script {
+                    echo "Deploying to Minikube..."
+
+                    // Replace placeholders in the YAML file with actual values
+                    sh '''
+                        sed "s|\${ImageRegistry}:${BUILD_NUMBER}|${ImageRegistry}:${BUILD_NUMBER}|g" k8s/deployment.yaml | kubectl apply -f -
+                    '''
+                }
+            }
+        }
     }
 }
