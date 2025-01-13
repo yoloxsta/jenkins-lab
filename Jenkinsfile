@@ -34,16 +34,12 @@ pipeline {
                 }
             }
         }
-        stage('Deploy to Minikube') {
+        stage('Deploy deployment and service file') {
             steps {
                 script {
-                    echo "Deploying application to Minikube..."
-                    sh '''
-                        kubectl apply -f k8s/deployment.yaml
-                    '''
+                    kubernetesDeploy configs: 'k8s/deployment.yaml', kubeconfigId: 'kubeconfig'
                 }
             }
         }
-    
     }
 }
