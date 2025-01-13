@@ -41,7 +41,7 @@ pipeline {
 
                     // Inject kubeconfig from Jenkins secret
                     withCredentials([string(credentialsId: 'kubeconfig', variable: 'KUBECONFIG_CONTENT')]) {
-                        writeFile(file: '/home/ubuntu/.kube/config', text: KUBECONFIG_CONTENT)
+                        writeFile(file: '/home/jenkins/.kube/config', text: KUBECONFIG_CONTENT)
                     }
 
                     // Set the image in the deployment file (e.g., update the deployment YAML with the new image)
