@@ -41,7 +41,7 @@ pipeline {
 
                     // Now set the KUBECONFIG environment variable and use it with kubectl
                     sh '''
-                    kubectl apply -f k8s/deployment.yaml
+                    kubectl apply -f k8s/deployment.yaml --validate=false
                     '''
                 }
             }
