@@ -12,38 +12,24 @@ pipeline {
                 }
             }
         }
-        stage('Docker Comopse Build') {
+        stage("buildImage") {
             steps {
-                ws("${workspace}"){
-                    sh "docker compose build --no-cache ${compose_service_name}"
+                script {
+                    echo "Building Docker Image..."
+                    sh "docker build -t ${ImageRegistry}/${JOB_NAME}:${BUILD_NUMBER} ."
                 }
-            }
-        }
-        stage('Docker Images Check') {
-            steps {
-                dependencyCheck additionalArguments: '--format HTML', odcInstallation: 'owasp'
-                
             }
         }
 
-        stage('OWASP Dependency-Check Vulnerabilities') {
+        stage("pushImage") {
             steps {
-                dependencyCheck additionalArguments: ''' 
-                            -o './'
-                            -s './'
-                            -f 'ALL' 
-                            --prettyPrint''', odcInstallation: 'owasp'
-                
-                dependencyCheckPublisher pattern: 'dependency-check-report.xml'
-              }
-            }
-        stage('Docker Comopse Up') {
-            steps {
-                ws("${workspace}"){
-                    sh "docker compose up --no-deps -d ${compose_service_name}"
+                script {
+                    echo "Pushing Image to DockerHub..."
+                    withCredentials([usernamePassword(credentialsId: 'docker-login', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
+                        sh "echo $PASS | docker login -u $USER --password-stdin"
+                        sh "docker push ${ImageRegistry}/${JOB_NAME}:${BUILD_NUMBER}"
+                    }
                 }
             }
         }
-    }
-}
 
