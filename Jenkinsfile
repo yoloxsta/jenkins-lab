@@ -34,23 +34,29 @@ pipeline {
                 }
             }
         }
-        stage("Set Up Minikube kubectl Context") {
+        stage('Prepare kubeconfig') {
             steps {
                 script {
-                    echo "Setting up Minikube kubectl context..."
-                    sh 'kubectl config use-context minikube'  // Ensure kubectl uses Minikube's context
+                    echo "Setting up kubeconfig for Minikube..."
+                    withCredentials([string(credentialsId: 'minikube-kubeconfig', variable: 'KUBECONFIG_CONTENT')]) {
+                        sh '''
+                            echo "$KUBECONFIG_CONTENT" > /tmp/kubeconfig
+                            export KUBECONFIG=/tmp/kubeconfig
+                        '''
+                    }
                 }
             }
         }
-        stage("Deploy to Minikube") {
+        stage('Deploy to Minikube') {
             steps {
                 script {
-                    echo "Deploying to Minikube..."
+                    echo "Deploying application to Minikube..."
                     sh '''
-                        sed "s|\${ImageRegistry}:${BUILD_NUMBER}|${ImageRegistry}:${BUILD_NUMBER}|g" k8s/deployment.yaml | kubectl apply -f - --validate=false
+                        kubectl apply -f k8s/deployment.yaml --kubeconfig=/tmp/kubeconfig
                     '''
                 }
             }
         }
+    
     }
 }
