@@ -171,3 +171,21 @@ pipeline {
 ###For Token
 `https://medium.com/@devayanthakur/minikube-configure-jenkins-kubernetes-plugin-25eb804d0dec`
 
+#######################
+##Fix
+
+sudo -u jenkins -i
+cat /home/ubuntu/.minikube/profiles/minikube/client.crt
+cat /home/ubuntu/.minikube/profiles/minikube/client.key
+sudo usermod -aG ubuntu jenkins
+groups jenkins
+sudo chmod -R 755 /home/ubuntu/.minikube
+sudo chmod 644 /home/ubuntu/.minikube/profiles/minikube/client.crt
+sudo chmod 644 /home/ubuntu/.minikube/profiles/minikube/client.key
+
+###Check
+sudo -u jenkins -i
+ls -l /home/ubuntu/.minikube/profiles/minikube/
+cat /home/ubuntu/.minikube/profiles/minikube/client.crt
+cat /home/ubuntu/.minikube/profiles/minikube/client.key
+exit
