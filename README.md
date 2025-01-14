@@ -166,3 +166,8 @@ pipeline {
     }
 }
 ```
+#############################
+
+###For Token
+`https://medium.com/@devayanthakur/minikube-configure-jenkins-kubernetes-plugin-25eb804d0dec`
+
