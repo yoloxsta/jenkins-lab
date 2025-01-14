@@ -174,6 +174,7 @@ pipeline {
 #######################
 ##Fix
 
+```
 sudo -u jenkins -i
 cat /home/ubuntu/.minikube/profiles/minikube/client.crt
 cat /home/ubuntu/.minikube/profiles/minikube/client.key
@@ -189,3 +190,4 @@ ls -l /home/ubuntu/.minikube/profiles/minikube/
 cat /home/ubuntu/.minikube/profiles/minikube/client.crt
 cat /home/ubuntu/.minikube/profiles/minikube/client.key
 exit
+```
