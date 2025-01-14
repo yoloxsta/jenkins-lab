@@ -13,6 +13,15 @@ pipeline {
                 }
             }
         }
+        stage('Find Pipeline User') {
+            steps {
+                sh '''
+                echo "Current Pipeline User:"
+                whoami
+                id
+                '''
+            }
+        }
         stage("buildImage") {
             steps {
                 script {
