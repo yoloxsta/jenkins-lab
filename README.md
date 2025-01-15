@@ -191,3 +191,7 @@ cat /home/ubuntu/.minikube/profiles/minikube/client.crt
 cat /home/ubuntu/.minikube/profiles/minikube/client.key
 exit
 ```
+
+###Jenkins cons
+`https://medium.com/@boonyaritkun/why-should-stop-using-jenkins-25b1a566c13c`
+
